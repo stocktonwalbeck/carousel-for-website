@@ -1,0 +1,219 @@
+/* =========================================================
+   LIGHTWEIGHT CAROUSEL CSS
+   Clean, modern, and performant carousel styling
+========================================================= */
+
+/* CSS Custom Properties for easy theming */
+:root {
+  --primary-blue: #0570f3;
+  --gradient-start: #142336;
+  --gradient-end: #23364E;
+  --text-white: #ffffff;
+  --border-radius: 50px;
+  --transition-speed: 0.3s;
+  --slide-width-desktop: 60rem;
+  --slide-width-mobile: 16rem;
+}
+
+/* Reset and base styles */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+}
+
+/* Main carousel section */
+.carousel-section {
+  padding: 2rem 1rem;
+  overflow: hidden;
+}
+
+.carousel-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Header with title and pagination */
+.carousel-header {
+  background: linear-gradient(90deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+  color: var(--text-white);
+  padding: 20px 30px;
+  margin: 30px auto;
+  border-radius: var(--border-radius);
+  border: 2px solid var(--primary-blue);
+  max-width: 1000px;
+  text-align: center;
+}
+
+.carousel-title {
+  margin: 0 0 15px;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+/* Pagination styling */
+.carousel-pagination {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.pagination-button {
+  background: none;
+  border: none;
+  color: var(--text-white);
+  font-size: 1rem;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity var(--transition-speed);
+  padding: 0.5rem 0;
+  white-space: nowrap;
+}
+
+.pagination-button:hover,
+.pagination-button.active {
+  opacity: 1;
+}
+
+/* Carousel wrapper and track */
+.carousel-wrapper {
+  position: relative;
+  overflow: hidden;
+  margin: 2rem 0;
+}
+
+.carousel-track {
+  display: flex;
+  transition: transform var(--transition-speed) ease;
+  will-change: transform;
+}
+
+/* Individual slides */
+.carousel-slide {
+  flex: 0 0 var(--slide-width-desktop);
+  margin: 0 6px;
+  transition: transform var(--transition-speed) ease;
+  opacity: 0.7;
+}
+
+.carousel-slide.active {
+  transform: scale(1.05);
+  opacity: 1;
+  z-index: 1;
+}
+
+.slide-link {
+  display: block;
+  text-decoration: none;
+  width: 100%;
+  height: 100%;
+}
+
+.slide-content {
+  aspect-ratio: 11/9;
+  border-radius: 1rem;
+  overflow: hidden;
+  position: relative;
+  background: #f5f5f5;
+}
+
+.slide-content img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-speed) ease;
+}
+
+.slide-content:hover img {
+  transform: scale(1.02);
+}
+
+/* Responsive design */
+@media screen and (max-width: 480px) {
+  .carousel-header {
+    padding: 18px 20px;
+    margin: 20px auto;
+    border-radius: 70px;
+  }
+  
+  .carousel-title {
+    font-size: 1rem;
+    margin-bottom: 10px;
+  }
+  
+  .carousel-pagination {
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
+  
+  .pagination-button {
+    font-size: 14px;
+    font-weight: 600;
+  }
+  
+  .carousel-slide {
+    flex: 0 0 var(--slide-width-mobile);
+    margin: 0 4px;
+  }
+  
+  .carousel-slide.active {
+    transform: scale(1.02);
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .carousel-title {
+    font-size: 16px;
+  }
+  
+  .pagination-button {
+    font-size: 12px;
+  }
+  
+  .carousel-pagination {
+    gap: 0.5rem;
+  }
+}
+
+/* Touch support */
+.carousel-wrapper {
+  touch-action: pan-y pinch-zoom;
+}
+
+/* Accessibility improvements */
+.pagination-button:focus {
+  outline: 2px solid var(--primary-blue);
+  outline-offset: 2px;
+}
+
+.slide-link:focus {
+  outline: 2px solid var(--primary-blue);
+  outline-offset: 2px;
+  border-radius: 1rem;
+}
+
+/* Performance optimizations */
+.carousel-slide {
+  contain: layout;
+}
+
+.slide-content {
+  contain: layout;
+  transform: translateZ(0); /* Force hardware acceleration */
+}
+
+/* Loading state (optional) */
+.carousel-slide img[loading="lazy"] {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.carousel-slide img[loading="lazy"].loaded {
+  opacity: 1;
+}
