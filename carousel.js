@@ -39,13 +39,22 @@ class LightweightCarousel {
       return;
     }
     
+    // Ensure all slides are visible initially
+    this.slides.forEach(slide => {
+      slide.style.visibility = 'visible';
+      slide.style.opacity = '1';
+    });
+    
     this.createPagination();
-    this.updateSlidePositions();
+    
+    // Use requestAnimationFrame to ensure DOM is ready
+    requestAnimationFrame(() => {
+      this.updateSlidePositions();
+      this.updateActiveSlide();
+    });
+    
     this.bindEvents();
     this.startAutoplay();
-    
-    // Mark first slide as active
-    this.updateActiveSlide();
     
     // Handle image loading for better performance
     this.handleImageLoading();
@@ -81,10 +90,22 @@ class LightweightCarousel {
     this.slides.forEach((slide, index) => {
       const offset = (index - this.currentIndex) * slideWidth + centerOffset;
       slide.style.transform = `translateX(${offset}px)`;
+      slide.style.visibility = 'visible';
+      slide.style.opacity = '1';
     });
   }
   
   getSlideWidth() {
+    if (this.slides.length > 0) {
+      const firstSlide = this.slides[0];
+      const slideRect = firstSlide.getBoundingClientRect();
+      const slideStyle = getComputedStyle(firstSlide);
+      const marginLeft = parseFloat(slideStyle.marginLeft);
+      const marginRight = parseFloat(slideStyle.marginRight);
+      return slideRect.width + marginLeft + marginRight;
+    }
+    
+    // Fallback if no slides
     if (window.innerWidth <= 480) {
       return 272; // 16rem + margins
     }
